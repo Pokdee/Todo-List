@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  background-color: white;
+}
+
+body {
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+.header {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  //   justify-content: center;
+  background-color: rgb(71, 64, 64);
+
+  &_head {
+    display: block;
+    width: 90%;
+    margin: auto;
+  }
+}
+main {
+  width: 100%;
+  height: 10rem;
+}
+
+.footer {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(71, 64, 64);
+  &_text {
+    font-size: 2rem;
+  }
+}
