@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./src/script.js" defer></script>
+    <link rel="icon" href="./src/image/checkmark-xxl.png" />
+    <script
+      src="https://kit.fontawesome.com/119b57ed61.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
     </style>
@@ -12,28 +17,56 @@
   </head>
   <body>
     <header class="header">
-      <h1 class="header_head">Todo List</h1>
+      <h1 class="header_head">
+        <img src="./src/image/checkmark-xxl.png" class="header_icon" alt="" />
+        <span>Todo List</span>
+      </h1>
     </header>
     <main class="main">
       <div class="content">
         <div class="nav_n_proj">
           <nav class="nav">
             <ul class="ul ul_notes">
-              <li class="li"><button class="project">inbox</button></li>
-              <li class="li"><button class="project">Today</button></li>
-              <li class="li"><button class="project">This week</button></li>
+              <li class="li">
+                <button class="project">
+                  <i class="fas fa-inbox"></i>
+                  inbox
+                </button>
+              </li>
+              <li class="li">
+                <button class="project">
+                  <i class="fas fa-calendar-week"></i>
+
+                  Today
+                </button>
+              </li>
+              <li class="li">
+                <button class="project">
+                  <i class="fas fa-calendar-days"></i>
+                  This week
+                </button>
+              </li>
             </ul>
           </nav>
           <div class="proj">
             <h2 class="proj_heading">Projects</h2>
-            <div class="projects">
-              <button class="project">Hello</button>
-              <button class="btn_add">+ Add Project</button>
+            <div class="projects_con">
+              <button class="project">
+                <i class="fas fa-list-check"></i>
+                Hello
+              </button>
+              <button class="btn_add">
+                <i class="fas fa-plus"></i>
+                Add Project
+              </button>
             </div>
           </div>
         </div>
         <section class="notes">
-          <h2>Heading</h2>
+          <h2>
+            <i class="fas fa-plus"></i>
+            Heading
+          </h2>
         </section>
       </div>
     </main>

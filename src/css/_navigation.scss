@@ -1,0 +1,67 @@
+.content {
+  height: 100%;
+
+  display: flex;
+  justify-content: start;
+}
+.nav_n_proj {
+  height: 100%;
+  background-color: #dddddd;
+}
+.nav {
+  width: 16rem;
+  padding: 1.8rem 2.1rem;
+
+  .li {
+    list-style: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}
+
+///Projects////
+.proj {
+  height: 100%;
+  padding: 0 1.3rem;
+  margin: auto;
+  &_heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.btn_add,
+.project {
+  width: 100%;
+  height: 2.5rem;
+  border: none;
+  background-color: inherit;
+  font-family: inherit;
+  font-size: 1.3rem;
+  padding-left: 1rem;
+  text-align: left;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    background-color: #d0caca;
+  }
+}
+
+.projects_con {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  padding: 0 1rem;
+  padding-right: 0;
+}
+.btn_add {
+  font-weight: 700;
+}
+
+//icons//
+.fas {
+  margin-right: 0.3rem;
+}
