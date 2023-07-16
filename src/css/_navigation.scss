@@ -30,6 +30,10 @@
   }
 }
 
+.pjname {
+  height: 2.5rem;
+}
+
 .btn_add,
 .project {
   width: 100%;
@@ -64,4 +68,55 @@
 //icons//
 .fas {
   margin-right: 0.3rem;
+}
+
+//form
+
+.form {
+  // background-color: red;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 1rem;
+
+  &_input {
+    width: 100%;
+    height: 2.2rem;
+    grid-area: 1/1/2/3;
+    outline: none;
+    border: 1px solid black;
+    text-indent: 1rem;
+  }
+  &_label {
+    width: 50%;
+    background-color: greenyellow;
+    width: 100%;
+    height: 2.2rem;
+    // font-weight: 1000;
+
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    background-color: green;
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(2, 156, 2);
+    }
+  }
+  .btn_cancel {
+    font-family: inherit;
+    background-color: red;
+    font-weight: 1000;
+    font-size: 1.1rem;
+    &:hover {
+      background-color: rgb(222, 3, 3);
+    }
+  }
+}
+
+///hide element
+.hide {
+  display: none;
 }

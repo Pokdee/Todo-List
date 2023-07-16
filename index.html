@@ -55,16 +55,29 @@
                 <i class="fas fa-list-check"></i>
                 Hello
               </button>
+            </div>
+            <div>
               <button class="btn_add">
                 <i class="fas fa-plus"></i>
                 Add Project
               </button>
+              <form class="form hide" action="submit">
+                <input
+                  class="form_input"
+                  type="text"
+                  class="pjname"
+                  id="pj"
+                  required
+                />
+                <button class="form_label btn_add" for="pj">Add</button>
+                <button class="form_label btn_cancel">Cancel</button>
+              </form>
             </div>
           </div>
         </div>
         <section class="notes">
-          <h2>
-            <i class="fas fa-plus"></i>
+          <h2 class="notes_heading">
+            <!-- <i class="fas fa-plus"></i> -->
             Heading
           </h2>
         </section>
