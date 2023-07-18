@@ -6,12 +6,30 @@ const pjNameIn = document.querySelector(".form_input");
 const pjAdd = document.querySelector(".btn_add");
 const pjCancel = document.querySelector(".btn_cancel");
 const pjCon = document.querySelector(".projects_con");
+const contents = document.querySelector(".projects");
+const tskForm = document.querySelector(".form_tsk");
 
 //change content
 navCon.addEventListener("click", (e) => {
-  if (e.target.classList.contains("project")) {
-    const text = e.target.textContent;
-    notesHead.textContent = text;
+  const text = e.target.textContent;
+  contents.innerHTML = "";
+  const headHtml = `<h2 class="notes_heading">
+  ${text}
+</h2>`;
+  const btnHtml = ` <button class="btn_add btn_addtsk">
+<i class="fas fa-plus"></i>
+Add Task
+</button>`;
+  contents.insertAdjacentHTML("afterbegin", headHtml);
+  if (e.target.classList.contains("pj")) {
+    contents.insertAdjacentHTML("beforeend", btnHtml);
+    //add new task
+    const newTaskBtn = document.querySelector(".btn_addtsk");
+
+    newTaskBtn.addEventListener("click", () => {
+      newTaskBtn.classList.add("hide");
+      tskForm.classList.remove("hide");
+    });
   }
 });
 
@@ -32,7 +50,7 @@ proForm.addEventListener("submit", (e) => {
     addProj.classList.remove("hide");
     proForm.classList.add("hide");
     //
-    const html = `<button class="project">
+    const html = `<button class="project pj">
     <i class="fas fa-list-check"></i>
     ${Pjname}
   </button>`;

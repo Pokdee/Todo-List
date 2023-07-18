@@ -28,9 +28,9 @@
           <nav class="nav">
             <ul class="ul ul_notes">
               <li class="li">
-                <button class="project">
+                <button class="project pj">
                   <i class="fas fa-inbox"></i>
-                  inbox
+                  Inbox
                 </button>
               </li>
               <li class="li">
@@ -51,12 +51,12 @@
           <div class="proj">
             <h2 class="proj_heading">Projects</h2>
             <div class="projects_con">
-              <button class="project">
+              <button class="project pj">
                 <i class="fas fa-list-check"></i>
                 Hello
               </button>
             </div>
-            <div>
+            <div class="addbtn_con">
               <button class="btn_add">
                 <i class="fas fa-plus"></i>
                 Add Project
@@ -76,10 +76,23 @@
           </div>
         </div>
         <section class="notes">
-          <h2 class="notes_heading">
-            <!-- <i class="fas fa-plus"></i> -->
-            Heading
-          </h2>
+          <div class="projects">
+            <!-- <button class="btn_add btn_addtsk hide">
+              <i class="fas fa-plus"></i>
+              Add Task
+            </button> -->
+          </div>
+          <form class="form form_tsk hide" action="submit">
+            <input
+              class="form_input addtask_input"
+              type="text"
+              class="pjname"
+              id="pj"
+              required
+            />
+            <button class="form_label add_tsk btn_tsk" for="pj">Add</button>
+            <button class="form_label cancel_tsk btn_tsk">Cancel</button>
+          </form>
         </section>
       </div>
     </main>

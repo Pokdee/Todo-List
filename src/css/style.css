@@ -163,11 +163,41 @@ body {
   background-color: rgb(222, 3, 3);
 }
 
+.addbtn_con {
+  padding: 0 1rem;
+}
+
 .hide {
   display: none;
+}
+
+.form_tsk {
+  margin: 1.5rem 0;
+}
+
+.addtask_input {
+  height: 2.5rem;
+}
+
+.btn_tsk {
+  height: 2.5rem;
+  font-size: 1.5rem;
+}
+.btn_tsk:hover {
+  background-color: rgb(2, 153, 2);
+}
+
+.cancel_tsk {
+  background-color: red;
+}
+.cancel_tsk:hover {
+  background-color: rgb(138, 2, 2);
 }
 
 .notes {
   padding: 2rem 3rem;
   width: 100%;
+}
+.notes_heading {
+  margin-bottom: 1rem;
 }/*# sourceMappingURL=style.css.map */
