@@ -200,4 +200,35 @@ body {
 }
 .notes_heading {
   margin-bottom: 1rem;
+}
+
+.todo_notes {
+  font-size: 1.2rem;
+  font-family: inherit;
+}
+.todo_notes .check_in {
+  margin-right: 0.5rem;
+  visibility: hidden;
+}
+.todo_notes .check_lb {
+  position: relative;
+}
+.todo_notes .check_lb::before {
+  visibility: visible;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid black;
+  border-radius: 50%;
+  top: 5%;
+  left: -40%;
+}
+.todo_notes .check_in:checked ~ .check_lb::before {
+  background-color: green;
+}
+.todo_notes .check_lb,
+.todo_notes .check_in {
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */

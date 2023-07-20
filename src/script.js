@@ -8,6 +8,9 @@ const pjCancel = document.querySelector(".btn_cancel");
 const pjCon = document.querySelector(".projects_con");
 const contents = document.querySelector(".projects");
 const tskForm = document.querySelector(".form_tsk");
+const tskInput = document.querySelector(".addtask_input");
+const addTask = document.querySelector(".add_tsk");
+const cancelTask = document.querySelector(".cancel_tsk");
 
 //change content
 navCon.addEventListener("click", (e) => {
@@ -21,6 +24,8 @@ navCon.addEventListener("click", (e) => {
 Add Task
 </button>`;
   contents.insertAdjacentHTML("afterbegin", headHtml);
+
+  /////
   if (e.target.classList.contains("pj")) {
     contents.insertAdjacentHTML("beforeend", btnHtml);
     //add new task
@@ -29,8 +34,20 @@ Add Task
     newTaskBtn.addEventListener("click", () => {
       newTaskBtn.classList.add("hide");
       tskForm.classList.remove("hide");
+      ////
+      tskForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const tskName = tskInput.value;
+        if (tskName) {
+          console.log(tskName);
+          tskInput.value = "";
+          newTaskBtn.classList.remove("hide");
+          tskForm.classList.add("hide");
+        }
+      });
     });
   }
+  //Add new task
 });
 
 //show form
