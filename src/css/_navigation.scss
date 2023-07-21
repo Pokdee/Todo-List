@@ -124,27 +124,3 @@
 .hide {
   display: none;
 }
-
-///add task
-.form_tsk {
-  margin: 1.5rem 0;
-}
-
-.addtask_input {
-  height: 2.5rem;
-}
-
-.btn_tsk {
-  height: 2.5rem;
-  font-size: 1.5rem;
-  &:hover {
-    background-color: rgb(2, 153, 2);
-  }
-}
-
-.cancel_tsk {
-  background-color: red;
-  &:hover {
-    background-color: rgb(138, 2, 2);
-  }
-}
