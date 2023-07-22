@@ -12,65 +12,106 @@ const tskInput = document.querySelector(".addtask_input");
 const addTask = document.querySelector(".add_tsk");
 const cancelTask = document.querySelector(".cancel_tsk");
 const tskCon = document.querySelector(".projects_ul");
+let newTaskBtn;
+
+//////////
+///projects notes store
+const NotesTodo = [];
+
+///functions
+
+const hideNshow = function (hide, show) {
+  hide.classList.add("hide");
+  show.classList.remove("hide");
+};
+
+const createDate = function () {
+  const d = new Date();
+  return {
+    day: d.getDate(),
+    month: d.getMonth(),
+    year: d.getFullYear(),
+  };
+};
+
+const tskHtmlCreate = function (name, date) {
+  return `<li class="projects_li">
+  <input class="check_in" type="checkbox" name="" id="note" />
+  <label class="check_lb" for="note">${name}</label>
+  <span class="date">${date.day}/${date.month}/${date.year}</span>
+  <div class="delete_btn">
+    <i class="fas fa-multiply"></i>
+  </div>
+  </li>`;
+};
+////
 
 //change content
 navCon.addEventListener("click", (e) => {
   ///navigate accross navigation
   const text = e.target.textContent;
   // contents.innerHTML = "";
-  const headHtml = `<h2 class="notes_heading">
-  ${text}
-</h2>`;
-  const btnHtml = ` <button class="btn_add btn_addtsk">
-<i class="fas fa-plus"></i>
-Add Task
-</button>`;
-  contents.insertAdjacentHTML("afterbegin", headHtml);
+  if (e.target.classList.contains("project")) {
+    const headHtml = `<h2 class="notes_heading">${text}</h2>`;
+    const btnHtml = ` <button class="btn_add btn_addtsk">
+    <i class="fas fa-plus"></i>
+    Add Task
+   </button>`;
+    contents.insertAdjacentHTML("afterbegin", headHtml);
 
-  /////act according to project section
-  if (e.target.classList.contains("pj")) {
-    contents.insertAdjacentHTML("beforeend", btnHtml);
+    /////act according to project section
+    if (e.target.classList.contains("pj")) {
+      contents.insertAdjacentHTML("beforeend", btnHtml);
 
-    //add new task
-    const newTaskBtn = document.querySelector(".btn_addtsk");
-
-    newTaskBtn.addEventListener("click", () => {
-      newTaskBtn.classList.add("hide");
-      tskForm.classList.remove("hide");
-
-      ////manage new task form
-      tskForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const tskName = tskInput.value;
-        if (tskName) {
-          console.log(tskName);
-          newTaskBtn.classList.remove("hide");
-          tskForm.classList.add("hide");
-
-          ///Html
-          const tskHtml = `<li class="projects_li">
-          <input class="check_in" type="checkbox" name="" id="note" />
-          <label class="check_lb" for="note">${tskName}</label>
-          <span class="date">7/21/23</span>
-          <div class="delete_btn">
-            <i class="fas fa-multiply"></i>
-          </div>
-        </li>`;
-          // console.log(tskHtml);
-          console.log(tskCon);
-          tskCon.insertAdjacentHTML("afterbegin", tskHtml);
-        }
-      });
-    });
+      //select new task btn
+      newTaskBtn = document.querySelector(".btn_addtsk");
+    }
   }
-  //Add new task
+
+  ////show new task form
+
+  newTaskBtn.addEventListener("click", () => {
+    hideNshow(newTaskBtn, tskForm);
+
+    ////manage new task form
+    tskForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      let tskName = tskInput.value;
+      tskInput.value = "";
+      if (tskName) {
+        hideNshow(tskForm, newTaskBtn);
+
+        //Date
+        let times = createDate();
+        ///Html
+
+        const tskHtml = tskHtmlCreate(tskName, times);
+
+        tskCon.insertAdjacentHTML("afterbegin", tskHtml);
+
+        //Create obj of notes data
+
+        let data = {
+          noteName: tskName,
+          noteDate: times,
+        };
+
+        tskName = times = "";
+
+        //store data in local storage
+        NotesTodo.push(data);
+        // localStorage.setItem("notes", JSON.stringify(NotesTodo));
+
+        // console.log(NotesTodo);
+      }
+    });
+  });
 });
 
 //show form
 addProj.addEventListener("click", () => {
   if (!addProj.classList.contains("hide")) {
-    addProj.classList.add("hide");
-    proForm.classList.remove("hide");
+    hideNshow(addProj, proForm);
   }
 });
 
@@ -80,19 +121,34 @@ proForm.addEventListener("submit", (e) => {
   const Pjname = pjNameIn.value;
   if (Pjname) {
     pjNameIn.value = "";
-    addProj.classList.remove("hide");
-    proForm.classList.add("hide");
+    hideNshow(proForm, addProj);
     //
     const html = `<button class="project pj">
     <i class="fas fa-list-check"></i>
     ${Pjname}
-  </button>`;
+   </button>`;
     pjCon.insertAdjacentHTML("beforeend", html);
   }
 });
 
 //form cancel
 pjCancel.addEventListener("click", () => {
-  addProj.classList.remove("hide");
-  proForm.classList.add("hide");
+  hideNshow(proForm, addProj);
 });
+
+//
+// const obj = {
+//   firstName: "john",
+//   age: "24",
+// };
+
+// localStorage.clear();
+
+////Load Stored data
+
+datas = JSON.parse(localStorage.getItem("notes"));
+console.log(datas);
+for (let i = 0; i < datas.length; i++) {
+  const ele = tskHtmlCreate(i.noteName, i.noteDate);
+  tskCon.insertAdjacentHTML("beforeend", ele);
+}

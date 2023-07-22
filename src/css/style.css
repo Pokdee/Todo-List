@@ -158,6 +158,13 @@ body {
   background-color: red;
   font-weight: 1000;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form .btn_cancel_text {
+  display: block;
+  font-size: 1.3rem;
 }
 .form .btn_cancel:hover {
   background-color: rgb(222, 3, 3);
@@ -208,13 +215,16 @@ body {
   height: auto;
   list-style-type: none;
   margin-right: 3rem;
+  margin-bottom: 1rem;
   padding: 0;
+  padding-left: 0.7rem;
 }
 
 .projects_li {
   display: flex;
   align-items: center;
   justify-content: start;
+  margin-bottom: 0.5rem;
 }
 
 .check_in {

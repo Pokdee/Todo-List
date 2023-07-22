@@ -110,6 +110,14 @@
     background-color: red;
     font-weight: 1000;
     font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_text {
+      display: block;
+      font-size: 1.3rem;
+    }
     &:hover {
       background-color: rgb(222, 3, 3);
     }
