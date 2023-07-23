@@ -178,6 +178,10 @@ body {
   display: none;
 }
 
+.selected {
+  background-color: #878383;
+}
+
 .notes {
   padding: 2rem 3rem;
   width: 100%;

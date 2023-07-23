@@ -12,11 +12,12 @@ const tskInput = document.querySelector(".addtask_input");
 const addTask = document.querySelector(".add_tsk");
 const cancelTask = document.querySelector(".cancel_tsk");
 const tskCon = document.querySelector(".projects_ul");
-let newTaskBtn;
+const heading = document.querySelector(".notes_heading");
+const newTaskBtn = document.querySelector(".btn_addtsk");
 
 //////////
 ///projects notes store
-const NotesTodo = [];
+let NotesTodo = [];
 
 ///functions
 
@@ -34,8 +35,8 @@ const createDate = function () {
   };
 };
 
-const tskHtmlCreate = function (name, date) {
-  return `<li class="projects_li">
+const tskHtmlCreate = function (name, date, id) {
+  return `<li class="projects_li" id = ${id} >
   <input class="check_in" type="checkbox" name="" id="note" />
   <label class="check_lb" for="note">${name}</label>
   <span class="date">${date.day}/${date.month}/${date.year}</span>
@@ -44,67 +45,72 @@ const tskHtmlCreate = function (name, date) {
   </div>
   </li>`;
 };
-////
+//////////
 
 //change content
 navCon.addEventListener("click", (e) => {
+  let navContents = document.querySelectorAll(".project");
+  navContents.forEach((el) => {
+    if (el.classList.contains("selected")) {
+      el.classList.remove("selected");
+    }
+  });
   ///navigate accross navigation
   const text = e.target.textContent;
+
   // contents.innerHTML = "";
   if (e.target.classList.contains("project")) {
-    const headHtml = `<h2 class="notes_heading">${text}</h2>`;
-    const btnHtml = ` <button class="btn_add btn_addtsk">
-    <i class="fas fa-plus"></i>
-    Add Task
-   </button>`;
-    contents.insertAdjacentHTML("afterbegin", headHtml);
+    e.target.classList.add("selected");
+    heading.textContent = text;
 
     /////act according to project section
-    if (e.target.classList.contains("pj")) {
-      contents.insertAdjacentHTML("beforeend", btnHtml);
-
-      //select new task btn
-      newTaskBtn = document.querySelector(".btn_addtsk");
+    if (!e.target.classList.contains("pj")) {
+      newTaskBtn.classList.add("hide");
     }
   }
+});
 
-  ////show new task form
+////show new task form
+let noteId = 1;
+newTaskBtn.addEventListener("click", () => {
+  hideNshow(newTaskBtn, tskForm);
 
-  newTaskBtn.addEventListener("click", () => {
-    hideNshow(newTaskBtn, tskForm);
+  ////manage new task form
+  tskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let tskName = tskInput.value;
+    tskInput.value = "";
+    if (tskName) {
+      hideNshow(tskForm, newTaskBtn);
 
-    ////manage new task form
-    tskForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      let tskName = tskInput.value;
-      tskInput.value = "";
-      if (tskName) {
-        hideNshow(tskForm, newTaskBtn);
+      //Date
+      let times = createDate();
+      ///Html
 
-        //Date
-        let times = createDate();
-        ///Html
+      const tskHtml = tskHtmlCreate(tskName, times, noteId);
 
-        const tskHtml = tskHtmlCreate(tskName, times);
+      tskCon.insertAdjacentHTML("beforeend", tskHtml);
 
-        tskCon.insertAdjacentHTML("afterbegin", tskHtml);
+      noteId++;
+      //Create obj of notes data
 
-        //Create obj of notes data
+      let data = {
+        noteName: tskName,
+        noteDate: times,
+        id: noteId,
+      };
 
-        let data = {
-          noteName: tskName,
-          noteDate: times,
-        };
+      tskName = times = "";
 
-        tskName = times = "";
+      //store data in local storage
+      NotesTodo.push(data);
+      const noteBox = tskCon.previousElementSibling.textContent;
+      console.log(noteBox);
 
-        //store data in local storage
-        NotesTodo.push(data);
-        // localStorage.setItem("notes", JSON.stringify(NotesTodo));
+      // localStorage.setItem("notes", JSON.stringify(NotesTodo));
 
-        // console.log(NotesTodo);
-      }
-    });
+      // console.log(NotesTodo);
+    }
   });
 });
 
@@ -145,10 +151,15 @@ pjCancel.addEventListener("click", () => {
 // localStorage.clear();
 
 ////Load Stored data
+// window.addEventListener("load", () => {
 
-datas = JSON.parse(localStorage.getItem("notes"));
-console.log(datas);
-for (let i = 0; i < datas.length; i++) {
-  const ele = tskHtmlCreate(i.noteName, i.noteDate);
-  tskCon.insertAdjacentHTML("beforeend", ele);
-}
+// });
+// datas = JSON.parse(localStorage.getItem("notes"));
+// // console.log(datas);
+// for (let i = 0; i < datas.length; i++) {
+//   const storedNote = datas[i];
+//   const ele = tskHtmlCreate(storedNote.noteName, storedNote.noteDate);
+//   tskCon.insertAdjacentHTML("beforeend", ele);
+// }
+
+// localStorage.clear();
