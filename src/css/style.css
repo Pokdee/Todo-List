@@ -208,9 +208,17 @@ body {
 
 .cancel_tsk {
   background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cancel_tsk:hover {
   background-color: rgb(138, 2, 2);
+}
+.cancel_tsk_text {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: bolder;
 }
 
 .projects_ul {

@@ -45,10 +45,13 @@ const tskHtmlCreate = function (name, date, id) {
   </div>
   </li>`;
 };
-//////////
+////////////////////////////////////////////////////////////
 
 //change content
 navCon.addEventListener("click", (e) => {
+  tskCon.innerHTML = "";
+  NotesTodo.splice(0, NotesTodo.length);
+
   let navContents = document.querySelectorAll(".project");
   navContents.forEach((el) => {
     if (el.classList.contains("selected")) {
@@ -56,16 +59,27 @@ navCon.addEventListener("click", (e) => {
     }
   });
   ///navigate accross navigation
-  const text = e.target.textContent;
+  const text = e.target.textContent.trim();
 
   // contents.innerHTML = "";
   if (e.target.classList.contains("project")) {
     e.target.classList.add("selected");
     heading.textContent = text;
 
+    const storedData = JSON.parse(localStorage.getItem(text));
+
+    if (storedData) {
+      for (let i = 0; i < storedData.length; i++) {
+        const storedNote = storedData[i];
+        const ele = tskHtmlCreate(storedNote.noteName, storedNote.noteDate);
+        tskCon.insertAdjacentHTML("beforeend", ele);
+      }
+    }
     /////act according to project section
     if (!e.target.classList.contains("pj")) {
       newTaskBtn.classList.add("hide");
+    } else {
+      newTaskBtn.classList.remove("hide");
     }
   }
 });
@@ -104,10 +118,10 @@ newTaskBtn.addEventListener("click", () => {
 
       //store data in local storage
       NotesTodo.push(data);
-      const noteBox = tskCon.previousElementSibling.textContent;
+      const noteBox = tskCon.previousElementSibling.textContent.trim();
       console.log(noteBox);
 
-      // localStorage.setItem("notes", JSON.stringify(NotesTodo));
+      // localStorage.setItem(noteBox, JSON.stringify(NotesTodo));
 
       // console.log(NotesTodo);
     }
