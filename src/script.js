@@ -18,6 +18,7 @@ const newTaskBtn = document.querySelector(".btn_addtsk");
 //////////
 ///projects notes store
 let NotesTodo = [];
+let storedData;
 
 ///functions
 
@@ -66,12 +67,17 @@ navCon.addEventListener("click", (e) => {
     e.target.classList.add("selected");
     heading.textContent = text;
 
-    const storedData = JSON.parse(localStorage.getItem(text));
+    storedData = JSON.parse(localStorage.getItem(text));
 
     if (storedData) {
       for (let i = 0; i < storedData.length; i++) {
         const storedNote = storedData[i];
-        const ele = tskHtmlCreate(storedNote.noteName, storedNote.noteDate);
+        // console.log(storedNote);
+        const ele = tskHtmlCreate(
+          storedNote.noteName,
+          storedNote.noteDate,
+          storedNote.id
+        );
         tskCon.insertAdjacentHTML("beforeend", ele);
       }
     }
@@ -100,9 +106,10 @@ newTaskBtn.addEventListener("click", () => {
       //Date
       let times = createDate();
       ///Html
-
+      console.log(noteId);
       const tskHtml = tskHtmlCreate(tskName, times, noteId);
 
+      console.log(tskHtml);
       tskCon.insertAdjacentHTML("beforeend", tskHtml);
 
       noteId++;
@@ -126,6 +133,13 @@ newTaskBtn.addEventListener("click", () => {
       // console.log(NotesTodo);
     }
   });
+});
+
+//Cancel task form
+
+cancelTask.addEventListener("click", () => {
+  hideNshow(tskForm, newTaskBtn);
+  tskInput.value = "";
 });
 
 //show form
@@ -154,6 +168,27 @@ proForm.addEventListener("submit", (e) => {
 //form cancel
 pjCancel.addEventListener("click", () => {
   hideNshow(proForm, addProj);
+});
+
+////Delete note
+tskCon.addEventListener("click", (e) => {
+  if (e.target.closest(".delete_btn")) {
+    const ele = e.target.closest(".projects_li");
+    const eleid = ele.getAttribute("id");
+
+    const notesEles = Array.from(tskCon.querySelectorAll(".projects_li"));
+    const eleIndex = notesEles.findIndex(
+      (el) => el.getAttribute("id") === eleid
+    );
+
+    ///remove from DOM
+    const deleteEle = document.getElementById(`${eleid}`);
+    console.log(deleteEle);
+    deleteEle.remove();
+
+    ////remove from storage
+    storedData.
+  }
 });
 
 //
