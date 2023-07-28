@@ -18,7 +18,6 @@ const newTaskBtn = document.querySelector(".btn_addtsk");
 //////////
 ///projects notes store
 let NotesTodo = [];
-let storedData;
 
 ///functions
 
@@ -67,9 +66,10 @@ navCon.addEventListener("click", (e) => {
     e.target.classList.add("selected");
     heading.textContent = text;
 
-    storedData = JSON.parse(localStorage.getItem(text));
+    const storedData = JSON.parse(localStorage.getItem(text));
 
     if (storedData) {
+      console.log(storedData);
       for (let i = 0; i < storedData.length; i++) {
         const storedNote = storedData[i];
         // console.log(storedNote);
@@ -124,13 +124,21 @@ newTaskBtn.addEventListener("click", () => {
       tskName = times = "";
 
       //store data in local storage
-      NotesTodo.push(data);
       const noteBox = tskCon.previousElementSibling.textContent.trim();
-      console.log(noteBox);
+      const storedData = JSON.parse(localStorage.getItem(noteBox));
 
-      // localStorage.setItem(noteBox, JSON.stringify(NotesTodo));
+      //updating old data to stored with new data
+      // if (storedData) {
+      //   if (!NotesTodo.includes(storedData)) {
+      //     NotesTodo.push(storedData);
+      //   }
+      // }
+      // NotesTodo.push(data);
+      // console.log(noteBox);
 
-      // console.log(NotesTodo);
+      //value not updating because its not adding new value but completely replacing
+      //old value so #fix it
+      localStorage.setItem(noteBox, JSON.stringify(NotesTodo));
     }
   });
 });
@@ -175,19 +183,31 @@ tskCon.addEventListener("click", (e) => {
   if (e.target.closest(".delete_btn")) {
     const ele = e.target.closest(".projects_li");
     const eleid = ele.getAttribute("id");
+    console.log(typeof eleid);
 
     const notesEles = Array.from(tskCon.querySelectorAll(".projects_li"));
     const eleIndex = notesEles.findIndex(
       (el) => el.getAttribute("id") === eleid
     );
 
-    ///remove from DOM
-    const deleteEle = document.getElementById(`${eleid}`);
-    console.log(deleteEle);
-    deleteEle.remove();
-
     ////remove from storage
-    storedData.
+
+    const eleParent = ele.closest(".projects_ul");
+    const storedKey = eleParent.previousElementSibling.textContent;
+    const storedData = JSON.parse(localStorage.getItem(storedKey));
+    console.log(storedData);
+    if (!storedData) {
+      localStorage.removeItem(storedKey);
+    }
+    const updatedData = storedData.filter((e) => e.id !== parseInt(eleid));
+    console.log(updatedData);
+    localStorage.removeItem(storedKey);
+    localStorage.setItem(storedKey, JSON.stringify(updatedData));
+
+    ///remove from DOM
+
+    const deleteEle = document.getElementById(`${eleid}`);
+    deleteEle.remove();
   }
 });
 
@@ -212,3 +232,12 @@ tskCon.addEventListener("click", (e) => {
 // }
 
 // localStorage.clear();
+
+// const arr1 = [1, 2, 3, 4];
+// const arr2 = arr1.map((e) => {
+//   if (e === 4) {
+//     return e;
+//   }
+// });
+// console.log(arr1);
+// console.log(arr2);
