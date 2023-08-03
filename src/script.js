@@ -17,7 +17,7 @@ const newTaskBtn = document.querySelector(".btn_addtsk");
 
 //////////
 ///projects notes store
-let NotesTodo = [];
+let tskToDo = [];
 
 ///functions
 
@@ -45,12 +45,21 @@ const tskHtmlCreate = function (name, date, id) {
   </div>
   </li>`;
 };
+
+const existedTskCheck = function (taskName, CheckingArray) {
+  const tskExist = CheckingArray.find((obj) => obj.noteName === taskName)
+    ? true
+    : false;
+  if (tskExist) {
+    return true;
+  }
+};
 ////////////////////////////////////////////////////////////
 
 //change content
 navCon.addEventListener("click", (e) => {
   tskCon.innerHTML = "";
-  NotesTodo.splice(0, NotesTodo.length);
+  tskToDo.splice(0, tskToDo.length);
 
   let navContents = document.querySelectorAll(".project");
   navContents.forEach((el) => {
@@ -66,13 +75,13 @@ navCon.addEventListener("click", (e) => {
     e.target.classList.add("selected");
     heading.textContent = text;
 
+    ///load if stored data exist
     const storedData = JSON.parse(localStorage.getItem(text));
 
-    if (storedData) {
-      console.log(storedData);
+    if (storedData && storedData.length !== 0) {
       for (let i = 0; i < storedData.length; i++) {
         const storedNote = storedData[i];
-        // console.log(storedNote);
+        console.log(storedNote);
         const ele = tskHtmlCreate(
           storedNote.noteName,
           storedNote.noteDate,
@@ -91,7 +100,7 @@ navCon.addEventListener("click", (e) => {
 });
 
 ////show new task form
-let noteId = 1;
+
 newTaskBtn.addEventListener("click", () => {
   hideNshow(newTaskBtn, tskForm);
 
@@ -103,16 +112,12 @@ newTaskBtn.addEventListener("click", () => {
     if (tskName) {
       hideNshow(tskForm, newTaskBtn);
 
+      const noteId = tskName.split(" ").pop();
       //Date
       let times = createDate();
       ///Html
-      console.log(noteId);
       const tskHtml = tskHtmlCreate(tskName, times, noteId);
 
-      console.log(tskHtml);
-      tskCon.insertAdjacentHTML("beforeend", tskHtml);
-
-      noteId++;
       //Create obj of notes data
 
       let data = {
@@ -121,24 +126,64 @@ newTaskBtn.addEventListener("click", () => {
         id: noteId,
       };
 
-      tskName = times = "";
+      // tskName = times = "";
 
       //store data in local storage
       const noteBox = tskCon.previousElementSibling.textContent.trim();
       const storedData = JSON.parse(localStorage.getItem(noteBox));
 
       //updating old data to stored with new data
-      // if (storedData) {
-      //   if (!NotesTodo.includes(storedData)) {
-      //     NotesTodo.push(storedData);
-      //   }
-      // }
-      // NotesTodo.push(data);
-      // console.log(noteBox);
+
+      if (storedData && storedData.length !== 0) {
+        console.log("stored");
+
+        ////
+
+        ////
+
+        //Check if tsk already exist in stored data
+        if (existedTskCheck(tskName, storedData)) {
+          alert("Task Name Cannot be duplicate");
+          return;
+        }
+
+        //Check if tsk added alredy
+        if (existedTskCheck(tskName, tskToDo)) {
+          alert("Task Name Cannot be duplicate");
+          return;
+        }
+
+        //Check if stored notes exist in tskTodo
+        if (tskToDo.length !== 0) {
+          console.log("notes not empty");
+          for (let i = 0; i < storedData.length; i++) {
+            const storedObj = storedData[i];
+
+            const notesCheck = tskToDo.find((obj) => obj.id === storedObj.id);
+
+            const valueExist = notesCheck ? true : false;
+            console.log(valueExist);
+            if (!valueExist) {
+              tskToDo.push(storedObj);
+            }
+          }
+        } else {
+          storedData.forEach((obj) => tskToDo.push(obj));
+        }
+      }
+
+      //add html
+
+      tskCon.insertAdjacentHTML("beforeend", tskHtml);
+
+      // console.log("notetodoAfter", tskToDo);
+
+      tskToDo.push(data);
+      console.log(tskToDo);
 
       //value not updating because its not adding new value but completely replacing
       //old value so #fix it
-      localStorage.setItem(noteBox, JSON.stringify(NotesTodo));
+      localStorage.setItem(noteBox, JSON.stringify(tskToDo));
     }
   });
 });
@@ -211,33 +256,4 @@ tskCon.addEventListener("click", (e) => {
   }
 });
 
-//
-// const obj = {
-//   firstName: "john",
-//   age: "24",
-// };
-
 // localStorage.clear();
-
-////Load Stored data
-// window.addEventListener("load", () => {
-
-// });
-// datas = JSON.parse(localStorage.getItem("notes"));
-// // console.log(datas);
-// for (let i = 0; i < datas.length; i++) {
-//   const storedNote = datas[i];
-//   const ele = tskHtmlCreate(storedNote.noteName, storedNote.noteDate);
-//   tskCon.insertAdjacentHTML("beforeend", ele);
-// }
-
-// localStorage.clear();
-
-// const arr1 = [1, 2, 3, 4];
-// const arr2 = arr1.map((e) => {
-//   if (e === 4) {
-//     return e;
-//   }
-// });
-// console.log(arr1);
-// console.log(arr2);
