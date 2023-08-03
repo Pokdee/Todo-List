@@ -81,7 +81,6 @@ navCon.addEventListener("click", (e) => {
     if (storedData && storedData.length !== 0) {
       for (let i = 0; i < storedData.length; i++) {
         const storedNote = storedData[i];
-        console.log(storedNote);
         const ele = tskHtmlCreate(
           storedNote.noteName,
           storedNote.noteDate,
@@ -135,8 +134,6 @@ newTaskBtn.addEventListener("click", () => {
       //updating old data to stored with new data
 
       if (storedData && storedData.length !== 0) {
-        console.log("stored");
-
         ////
 
         ////
@@ -155,14 +152,12 @@ newTaskBtn.addEventListener("click", () => {
 
         //Check if stored notes exist in tskTodo
         if (tskToDo.length !== 0) {
-          console.log("notes not empty");
           for (let i = 0; i < storedData.length; i++) {
             const storedObj = storedData[i];
 
             const notesCheck = tskToDo.find((obj) => obj.id === storedObj.id);
 
             const valueExist = notesCheck ? true : false;
-            console.log(valueExist);
             if (!valueExist) {
               tskToDo.push(storedObj);
             }
@@ -176,10 +171,7 @@ newTaskBtn.addEventListener("click", () => {
 
       tskCon.insertAdjacentHTML("beforeend", tskHtml);
 
-      // console.log("notetodoAfter", tskToDo);
-
       tskToDo.push(data);
-      console.log(tskToDo);
 
       //value not updating because its not adding new value but completely replacing
       //old value so #fix it
@@ -228,26 +220,29 @@ tskCon.addEventListener("click", (e) => {
   if (e.target.closest(".delete_btn")) {
     const ele = e.target.closest(".projects_li");
     const eleid = ele.getAttribute("id");
-    console.log(typeof eleid);
 
     const notesEles = Array.from(tskCon.querySelectorAll(".projects_li"));
-    const eleIndex = notesEles.findIndex(
-      (el) => el.getAttribute("id") === eleid
-    );
-
-    ////remove from storage
+    // const eleIndex = notesEles.findIndex(
+    //   (el) => el.getAttribute("id") === eleid
+    // );
 
     const eleParent = ele.closest(".projects_ul");
     const storedKey = eleParent.previousElementSibling.textContent;
     const storedData = JSON.parse(localStorage.getItem(storedKey));
     console.log(storedData);
-    if (!storedData) {
+
+    ////remove from storage
+
+    const updatedData = storedData.filter((obj) => obj.id !== eleid);
+    console.log(updatedData);
+    console.log(updatedData.length);
+    if (updatedData.length !== 0) {
+      localStorage.setItem(storedKey, JSON.stringify(updatedData));
+    } else {
       localStorage.removeItem(storedKey);
     }
-    const updatedData = storedData.filter((e) => e.id !== parseInt(eleid));
+
     console.log(updatedData);
-    localStorage.removeItem(storedKey);
-    localStorage.setItem(storedKey, JSON.stringify(updatedData));
 
     ///remove from DOM
 
