@@ -103,10 +103,6 @@ body {
   font-weight: 500;
   cursor: pointer;
 }
-.btn_add:hover,
-.project:hover {
-  background-color: #d0caca;
-}
 
 .projects_con {
   display: flex;
@@ -117,6 +113,23 @@ body {
   font-weight: bolder;
   padding: 0 1rem;
   padding-right: 0;
+}
+
+.project_con {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.project_con:hover {
+  background-color: #d0caca;
+}
+
+.xmark-icon {
+  display: block;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 1rem;
 }
 
 .btn_add {
