@@ -1,3 +1,5 @@
+import "./css/style.scss";
+
 const navCon = document.querySelector(".nav_n_proj");
 const notesHead = document.querySelector(".notes_heading");
 const addProj = document.querySelector(".btn_add");
@@ -18,7 +20,7 @@ const newTaskBtn = document.querySelector(".btn_addtsk");
 //////////
 ///projects notes store
 let tskToDo = [];
-let projects = [];
+let projectsArr = [];
 
 ///functions//////
 
@@ -55,8 +57,49 @@ const existedTskCheck = function (taskName, CheckingArray) {
     return true;
   }
 };
+
+const loadStoredtask = function (Data) {
+  if (Data && Data.length !== 0) {
+    for (let i = 0; i < Data.length; i++) {
+      const storedNote = Data[i];
+      const ele = tskHtmlCreate(
+        storedNote.noteName,
+        storedNote.noteDate,
+        storedNote.id
+      );
+      tskCon.insertAdjacentHTML("beforeend", ele);
+    }
+  }
+};
 ////////////////////////////////////////////////////////////
 
+//Load the Page
+window.addEventListener("load", () => {
+  //Load Inbox task
+  const storedInbox = JSON.parse(localStorage.getItem("Inbox"));
+
+  if (storedInbox && storedInbox.length !== 0) {
+    loadStoredtask(storedInbox);
+  }
+  //Load stored Projects
+
+  const storedProjects = JSON.parse(localStorage.getItem("projects"));
+
+  if (storedProjects && storedProjects.length !== 0) {
+    storedProjects.forEach((pJname) => {
+      const html = `<div class="project_con">
+      <button class="project pj" id-text="${pJname}">
+        <i class="fas fa-list-check"></i>
+        ${pJname}
+      </button>
+      <span class="xmark-icon"> <i class="fas fa-xmark"></i> </span>
+    </div>`;
+      pjCon.insertAdjacentHTML("beforeend", html);
+    });
+  }
+});
+
+/////////////////////////////////////////////////////////////
 //change content
 navCon.addEventListener("click", (e) => {
   tskCon.innerHTML = "";
@@ -79,17 +122,7 @@ navCon.addEventListener("click", (e) => {
     ///load if stored data exist
     const storedData = JSON.parse(localStorage.getItem(text));
 
-    if (storedData && storedData.length !== 0) {
-      for (let i = 0; i < storedData.length; i++) {
-        const storedNote = storedData[i];
-        const ele = tskHtmlCreate(
-          storedNote.noteName,
-          storedNote.noteDate,
-          storedNote.id
-        );
-        tskCon.insertAdjacentHTML("beforeend", ele);
-      }
-    }
+    loadStoredtask(storedData);
     /////act according to project section
     if (!e.target.classList.contains("pj")) {
       newTaskBtn.classList.add("hide");
@@ -205,34 +238,18 @@ pjCon.addEventListener("click", (e) => {
     const storedKey = delEleName.split(" ").pop();
     const storedProjects = JSON.parse(localStorage.getItem("projects"));
 
-    const updateProjects = storedProjects.filter(
-      (names) => names !== delEleName
-    );
-    console.log(updateProjects);
-    localStorage.removeItem(storedKey);
+    const updatedProjects = storedProjects.filter((pj) => pj !== delEleName);
+
     delEle.remove();
-    localStorage.setItem("projects", updateProjects);
+    localStorage.removeItem(storedKey);
+
+    if (updatedProjects.length === 0) {
+      localStorage.removeItem("projects");
+    } else {
+      localStorage.setItem("projects", JSON.stringify(updatedProjects));
+    }
   }
 });
-
-//////////////////////////////////////////////////////////
-
-window.addEventListener("load", () => {
-  ///Load stored Projects
-  // const storedProjects = JSON.parse(localStorage.getItem("projects"));
-  // storedProjects.forEach((pJname) => {
-  //   const html = `<div class="project_con">
-  //   <button class="project pj" id-text="${pJname}">
-  //     <i class="fas fa-list-check"></i>
-  //     ${pJname}
-  //   </button>
-  //   <span class="xmark-icon"> <i class="fas fa-xmark"></i> </span>
-  // </div>`;
-  //   pjCon.insertAdjacentHTML("beforeend", html);
-  // });
-});
-
-/////////////////////////////////////////////////////////
 
 //form submit
 proForm.addEventListener("submit", (e) => {
@@ -241,10 +258,11 @@ proForm.addEventListener("submit", (e) => {
   //Create Project Tab
   const Pjname = pjNameIn.value;
   if (Pjname) {
-    projects.push(Pjname);
+    //
     pjNameIn.value = "";
     hideNshow(proForm, addProj);
     //
+
     const html = `<div class="project_con">
     <button class="project pj" id-text="${Pjname}">
       <i class="fas fa-list-check"></i>
@@ -254,8 +272,19 @@ proForm.addEventListener("submit", (e) => {
   </div>`;
     pjCon.insertAdjacentHTML("beforeend", html);
   }
+
   ///Stored Projects Tag Name
-  localStorage.setItem("projects", JSON.stringify(projects));
+  const storedProjs = JSON.parse(localStorage.getItem("projects"));
+
+  if (storedProjs && storedProjs.length !== 0) {
+    storedProjs.forEach((pj) => {
+      if (!projectsArr.includes(pj)) {
+        projectsArr.push(pj);
+      }
+    });
+  }
+  projectsArr.push(Pjname);
+  localStorage.setItem("projects", JSON.stringify(projectsArr));
 });
 
 //form cancel
@@ -294,7 +323,3 @@ tskCon.addEventListener("click", (e) => {
     deleteEle.remove();
   }
 });
-
-//
-
-// localStorage.clear();
